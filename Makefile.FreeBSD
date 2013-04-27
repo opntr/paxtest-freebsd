@@ -3,7 +3,7 @@
 CC=gcc
 CFLAGS=
 LDFLAGS=
-SHLDFLAGS+=
+SHLDFLAGS=
 .ifndef RUNDIR
 RUNDIR=.
 .endif
@@ -95,7 +95,7 @@ getheap1: getheap.o
 	$(CC) $(LDFLAGS) -o $@ $>
 
 getheap2: getheap.o
-	$(CC) -shared -o $@ $>
+	$(CC) $(SHLDFLAGS) -shared -o $@ $>
 
 getheap.o: getheap.c
 	$(CC) $(CFLAGS) -fPIC -o $@ -c $>
@@ -107,7 +107,7 @@ getmain1: getmain.o
 	$(CC) $(LDFLAGS) -o $@ $>
 
 getmain2: getmain2.o
-	$(CC) -shared -o $@ $>
+	$(CC) $(SHLDFLAGS) -shared -o $@ $>
 
 getmain2.o: getmain.c
 	$(CC) $(CFLAGS) -fPIC -o $@ -c $>
