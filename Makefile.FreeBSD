@@ -3,6 +3,7 @@
 CC=gcc
 CFLAGS=
 LDFLAGS=
+SHLDFLAGS+=
 .ifndef RUNDIR
 RUNDIR=.
 .endif
