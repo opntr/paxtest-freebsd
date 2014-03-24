@@ -23,5 +23,5 @@ freebsd:
 	make -f Makefile.FreeBSD
 
 clean:
-	make -f Makefile.psm clean
+	gmake -f Makefile.OpenBSD clean
 
