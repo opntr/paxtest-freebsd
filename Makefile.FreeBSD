@@ -1,6 +1,6 @@
 #!/usr/bin/make
 
-CC=gcc
+CC=gcc49
 CFLAGS=
 LDFLAGS=
 SHLDFLAGS=
@@ -24,8 +24,11 @@ TESTS=	anonmap \
 	mprotshdata \
 	mprotstack \
 	randamap \
+	randexhaust1 \
+	randexhaust2 \
 	randheap1 \
 	randmain1 \
+	randmain2 \
 	randshlib \
 	randstack1 \
 	randstack2 \
@@ -42,6 +45,8 @@ TESTS=	anonmap \
 UTILS=	getamap \
 	getheap1 \
 	getheap2 \
+	getexhaust1 \
+	getexhaust2 \
 	getmain1 \
 	getmain2 \
 	getshlib \
@@ -54,11 +59,6 @@ SHLIBS=	shlibtest.so \
 	shlibtest2.so
 
 all: $(SHLIBS) $(TESTS) $(UTILS) paxtest
-
-clean:
-	-rm -f *.o *.s *~ core
-	-rm -f $(SHLIBS) $(TESTS) $(UTILS)
-	-rm -f paxtest paxtest.log a.out
 
 .ifdef DESTDIR
 .ifdef BINDIR
@@ -167,11 +167,17 @@ randheap1: randbody.o randheap1.o
 randheap2: randbody.o randheap2.o
 	$(CC) $(LDFLAGS) -o $@ $>
 
+randexhaust1: randbody.o randexhaust1.o
+	$(CC) $(LDFLAGS) -o $@ $>
+
+randexhaust2: randbody.o randexhaust2.o
+	$(CC) $(LDFLAGS) -o $@ $>
+
 randmain1: randbody.o randmain1.o
 	$(CC) $(LDFLAGS) -o $@ $>
 
 randmain2: randbody.o randmain2.o
-	$(CC) $(LDFLAGS) -o $@ $>
+	$(CC) $(LDFLAGS) $(SHLDFLAGS) -o $@ $>
 
 randshlib: randbody.o randshlib.o
 	$(CC) $(LDFLAGS) -o $@ $>
@@ -215,3 +221,7 @@ shlibdata: body.o shlibdata.o shlibtest.so shlibtest2.so
 writetext: body.o writetext.o shlibtest.so
 	$(CC) $(LDFLAGS) -o $@ $>
 
+clean:
+	-rm -f *.o *.s *~ core *.core
+	-rm -f $(SHLIBS) $(TESTS) $(UTILS)
+	-rm -f paxtest paxtest.log a.out
