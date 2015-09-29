@@ -10,6 +10,7 @@ RUNDIR=.
 
 CFLAGS+= -DRUNDIR=\"${RUNDIR}\"
 CFLAGS+= -fno-stack-protector
+CFLAGS+= -D_FORTIFY_SOURCE=0
 LDFLAGS+= -lpthread
 
 TESTS=	anonmap \
