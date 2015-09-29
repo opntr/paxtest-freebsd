@@ -1,5 +1,10 @@
-paxtest (0.9.11-2) stable; urgency=low
-  * Added FreeBSD support
+paxtest (0.9.13-1) stable; urgency=low
+  * Added VDSO randomization test
+  * Added basic entropy quality testing, subtracts weak bits from entropy count
+  * Increased iterations for all randomization tests but the exhaustion tests
+
+paxtest (0.9.12-1) stable; urgency=low
+  * Added ARM support
 
 paxtest (0.9.11-1) stable; urgency=low
   * Added display of exhaustion tests

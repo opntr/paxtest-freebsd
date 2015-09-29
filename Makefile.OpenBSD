@@ -140,10 +140,6 @@ mprotstack: body.o mprotstack.o
 
 randamap: randbody.o randamap.o
 
-randarg1: randbody.o randarg1.o
-
-randarg2: randbody.o randarg2.o
-
 randheap1: randbody.o randheap1.o
 
 randheap2: randbody.o randheap2.o
