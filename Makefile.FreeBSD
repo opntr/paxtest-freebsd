@@ -8,8 +8,9 @@ SHLDFLAGS=
 RUNDIR=.
 .endif
 
-CFLAGS+=-DRUNDIR=\"${RUNDIR}\" -fno-stack-protector
-LDFLAGS+=-lpthread
+CFLAGS+= -DRUNDIR=\"${RUNDIR}\"
+CFLAGS+= -fno-stack-protector
+LDFLAGS+= -lpthread
 
 TESTS=	anonmap \
 	execbss \
@@ -27,6 +28,7 @@ TESTS=	anonmap \
 	randexhaust1 \
 	randexhaust2 \
 	randheap1 \
+	randheap2 \
 	randmain1 \
 	randmain2 \
 	randshlib \
@@ -73,6 +75,15 @@ install: all
 .endif
 .endif
 
+body.o: body.c
+	$(CC) $(CFLAGS) -fPIC -o $@ -c $>
+
+rettofunc1x.o: rettofunc1x.c
+	$(CC) $(CFLAGS) -fPIC -o $@ -c $>
+
+rettofunc2x.o: rettofunc2x.c
+	$(CC) $(CFLAGS) -fPIC -o $@ -c $>
+
 paxtest: $(TESTS) genpaxtest
 	sh genpaxtest $(TESTS)
 
@@ -95,7 +106,7 @@ getheap1: getheap.o
 	$(CC) $(LDFLAGS) -o $@ $>
 
 getheap2: getheap.o
-	$(CC) $(SHLDFLAGS) -shared -o $@ $>
+	$(CC) $(SHLDFLAGS) -pie -fPIE -o $@ $>
 
 getheap.o: getheap.c
 	$(CC) $(CFLAGS) -fPIC -o $@ -c $>
@@ -107,7 +118,7 @@ getmain1: getmain.o
 	$(CC) $(LDFLAGS) -o $@ $>
 
 getmain2: getmain2.o
-	$(CC) $(SHLDFLAGS) -shared -o $@ $>
+	$(CC) $(SHLDFLAGS) -pie -fPIE -o $@ $>
 
 getmain2.o: getmain.c
 	$(CC) $(CFLAGS) -fPIC -o $@ -c $>
@@ -198,7 +209,7 @@ rettofunc2: body.o rettofunc2.o
 	$(CC) $(LDFLAGS) -o $@ $>
 
 rettofunc2x: body.o rettofunc2x.o
-	$(CC) $(LDFLAGS) -o $@ $>
+	$(CC) $(LDFLAGS) -fPIE -pie -o $@ $>
 
 shlibtest.o: shlibtest.c
 	$(CC) $(CFLAGS) -fPIC -c $< -o $@

@@ -8,7 +8,7 @@ all:
 	@cat targets
 
 linux:
-	make -f Makefile.psm
+	gmake -f Makefile.psm
 
 linux32:
 	make -f Makefile.psm THEARCH=-m32
@@ -21,6 +21,9 @@ openbsd:
 
 freebsd:
 	make -f Makefile.FreeBSD
+
+freebsd-gmake:
+	gmake -f Makefile.FreeBSD.gmake
 
 clean:
 	make -f Makefile.FreeBSD clean
