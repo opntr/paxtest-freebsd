@@ -37,6 +37,7 @@ TESTS=	anonmap \
 	randstack2 \
 	randarg1 \
 	randarg2 \
+	randvdso \
 	rettofunc1 \
 	rettofunc1x \
 	rettofunc2 \
@@ -56,7 +57,8 @@ UTILS=	getamap \
 	getstack1 \
 	getstack2 \
 	getarg1 \
-	getarg2
+	getarg2 \
+	getvdso
 
 SHLIBS=	shlibtest.so \
 	shlibtest2.so
@@ -179,10 +181,10 @@ randheap1: randbody.o randheap1.o
 randheap2: randbody.o randheap2.o
 	$(CC) $(LDFLAGS) -o $@ $>
 
-randexhaust1: randbody.o randexhaust1.o
+randexhaust1: fastrandbody.o randexhaust1.o
 	$(CC) $(LDFLAGS) -o $@ $>
 
-randexhaust2: randbody.o randexhaust2.o
+randexhaust2: fastrandbody.o randexhaust2.o
 	$(CC) $(LDFLAGS) -o $@ $>
 
 randmain1: randbody.o randmain1.o
@@ -198,6 +200,9 @@ randstack1: randbody.o randstack1.o
 	$(CC) $(LDFLAGS) -o $@ $>
 
 randstack2: randbody.o randstack2.o
+	$(CC) $(LDFLAGS) -o $@ $>
+
+randvdso: randbody.o randvdso.o
 	$(CC) $(LDFLAGS) -o $@ $>
 
 rettofunc1: body.o rettofunc1.o

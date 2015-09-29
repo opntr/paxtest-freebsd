@@ -18,6 +18,7 @@ getmain2
 getshlib
 getstack1
 getstack2
+getvdso
 mprotanon
 mprotbss
 mprotdata
@@ -44,6 +45,7 @@ rettofunc1
 rettofunc1x
 rettofunc2
 rettofunc2x
+randvdso
 shlibbss
 shlibdata
 shlibtest.so
