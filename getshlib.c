@@ -12,9 +12,12 @@
 /* OpenBSD 3.5 doesn't define RTLD_DEFAULT */
 /* OpenBSD 3.6 does but it doesn't actually handle (segfaults on) RTLD_DEFAULT, sigh... */
 /* FreeBSD too... */
-#if defined(__OpenBSD__) || defined(__FreeBSD__)
+#if defined(__OpenBSD__)
 #undef RTLD_DEFAULT
 #define RTLD_DEFAULT "libc.so"
+#elif defined (__FreeBSD__) || defined (__HardenedBSD__)
+#undef RTLD_DEFAULT
+#define RTLD_DEFAULT "libc.so.7"
 #endif
 
 int main( int argc, char *argv[] )

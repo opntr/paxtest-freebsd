@@ -1,6 +1,6 @@
 #!/usr/bin/make
 
-CC=gcc49
+CC=cc
 CFLAGS=
 LDFLAGS=
 SHLDFLAGS=

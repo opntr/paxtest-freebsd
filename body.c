@@ -30,6 +30,8 @@ int main( int argc, char *argv[] )
 {
 	int status;
 	char *mode;
+
+#ifndef __clang__	
 	/* This defaults to 1 as a safety mechanism. It is better to fail in
 	 * blackhat mode, because kiddie mode can produce overly optimistic
 	 * results.
@@ -38,7 +40,12 @@ int main( int argc, char *argv[] )
 
 	/* Dummy nested function */
 	void dummy(void) {}
+#else
+#warning "clang compiled version does not support blackhat mode ..."
+#endif
 
+
+#ifndef __clang__	
 	mode = getenv( "PAXTEST_MODE" );
 	if( mode == NULL ) {
 		paxtest_mode = 1;
@@ -49,11 +56,13 @@ int main( int argc, char *argv[] )
 			paxtest_mode = 1;
 		}
 	}
+#endif
 
 	printf( "%s: ", testname );
 	fflush( stdout );
 
 	if( fork() == 0 ) {
+#ifndef __clang__	
 		/* Perform a dirty (but not unrealistic) trick to circumvent
 		 * the kernel protection.
 		 */
@@ -65,6 +74,9 @@ int main( int argc, char *argv[] )
 		} else {
 			doit();
 		}
+#else
+		doit();
+#endif
 	} else {
 		wait( &status );
 		if( WIFEXITED(status) == 0 ) {
