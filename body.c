@@ -1,4 +1,4 @@
-/* body.c - This part is shared by the test programs (except for the randomisation
+/* body.c - This part is shared by the test programs (except for the randomization
  *          tests)
  *
  * Copyright (c)2003,2004 by Peter Busser <peter@adamantix.org>
@@ -16,9 +16,8 @@
 #include <sys/wait.h>
 #include <pthread.h>
 #include <unistd.h>
+#include "body.h"
 
-extern int doit( void );
-extern const char testname[];
 
 static void *test_thread(void *p)
 {
@@ -31,7 +30,7 @@ int main( int argc, char *argv[] )
 	int status;
 	char *mode;
 
-#ifndef __clang__	
+#ifndef __clang__
 	/* This defaults to 1 as a safety mechanism. It is better to fail in
 	 * blackhat mode, because kiddie mode can produce overly optimistic
 	 * results.
@@ -44,8 +43,7 @@ int main( int argc, char *argv[] )
 #warning "clang compiled version does not support blackhat mode ..."
 #endif
 
-
-#ifndef __clang__	
+#ifndef __clang__
 	mode = getenv( "PAXTEST_MODE" );
 	if( mode == NULL ) {
 		paxtest_mode = 1;
@@ -62,7 +60,7 @@ int main( int argc, char *argv[] )
 	fflush( stdout );
 
 	if( fork() == 0 ) {
-#ifndef __clang__	
+#ifndef __clang__
 		/* Perform a dirty (but not unrealistic) trick to circumvent
 		 * the kernel protection.
 		 */
@@ -105,10 +103,12 @@ int do_mprotect( const void *addr, size_t len, int prot )
 {
 	void *ptr;
 	int retval;
-	long PAGESIZE = sysconf(_SC_PAGESIZE);
+	unsigned long pagesize = sysconf(_SC_PAGESIZE);
+	unsigned long offset = (unsigned long) addr & (pagesize - 1);
 
-	/* Allign to a multiple of PAGESIZE, assumed to be a power of two */
-	ptr = (char *)(((unsigned long) addr) & ~(PAGESIZE-1));
+	/* Align to a multiple of PAGESIZE, assumed to be a power of two */
+	ptr = (void *)((unsigned long) addr - offset);
+	len += offset;
 
 	retval = mprotect( ptr, len, prot );
 	if( retval != 0 && (errno == EINVAL)) {
