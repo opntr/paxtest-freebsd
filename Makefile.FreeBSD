@@ -1,6 +1,8 @@
 #!/usr/bin/make
 
-CC= cc
+CC?=	cc
+ASFLAGS=
+CC_PIE=
 CFLAGS=
 LDFLAGS=
 SHLDFLAGS=
@@ -8,57 +10,86 @@ SHLDFLAGS=
 RUNDIR=.
 .endif
 
+
+ASFLAGS+= --noexecstack
+
 CFLAGS+= -DRUNDIR=\"${RUNDIR}\"
 CFLAGS+= -fno-stack-protector
 CFLAGS+= -D_FORTIFY_SOURCE=0
 LDFLAGS+= -lpthread
+CC_PIE+= -fPIE -fPIC
 
-TESTS=	anonmap \
+EXEC_TESTS=	\
+	anonmap \
 	execbss \
 	execdata \
 	execheap \
-	execstack \
+	execstack
+
+MPROT_TESTS=	\
 	mprotanon \
 	mprotbss \
 	mprotdata \
 	mprotheap \
+	mprotstack
+
+SHLIB_TESTS=	\
+	shlibbss \
+	shlibdata
+
+MPROTSH_TESTS=	\
 	mprotshbss \
 	mprotshdata \
-	mprotstack \
+	writetext
+
+RAND_TESTS=	\
 	randamap \
-	randexhaust1 \
-	randexhaust2 \
 	randheap1 \
 	randheap2 \
 	randmain1 \
 	randmain2 \
 	randshlib \
+	randvdso \
 	randstack1 \
 	randstack2 \
 	randarg1 \
-	randarg2 \
-	randvdso \
+	randarg2
+
+FAST_RAND_TESTS=	\
+	randexhaust1 \
+	randexhaust2
+
+RET_TESTS=	\
 	rettofunc1 \
+	rettofunc2
+
+RETX_TESTS=	\
 	rettofunc1x \
-	rettofunc2 \
-	rettofunc2x \
-	shlibbss \
-	shlibdata \
-	writetext
+	rettofunc2x
+
+TESTS:= \
+       ${EXEC_TESTS} \
+       ${SHLIB_TESTS} \
+       ${MPROT_TESTS} \
+       ${MPROTSH_TESTS} \
+       ${RAND_TESTS} \
+       ${FAST_RAND_TESTS} \
+       ${RET_TESTS} \
+       ${RETX_TESTS}
 
 UTILS=	getamap \
 	getheap1 \
 	getheap2 \
-	getexhaust1 \
-	getexhaust2 \
 	getmain1 \
 	getmain2 \
 	getshlib \
+	getvdso \
 	getstack1 \
 	getstack2 \
 	getarg1 \
 	getarg2 \
-	getvdso
+	getexhaust1 \
+	getexhaust2
 
 SHLIBS=	shlibtest.so \
 	shlibtest2.so
