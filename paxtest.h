@@ -4,7 +4,9 @@
 #include <string.h>
 
 #define PAGE_SIZE_MAX	0x10000	/* 64k should cover most arches */
+#ifndef __aligned
 #define __aligned(x)	__attribute__((aligned(x)))
+#endif
 #define __pagealigned	__aligned(PAGE_SIZE_MAX)
 #define __use(x)	asm volatile ( "" : : "m" (x) );
 
