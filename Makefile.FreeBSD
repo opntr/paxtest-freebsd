@@ -236,3 +236,4 @@ clean:
 	-rm -f *.o *.s *~ core *.core
 	-rm -f $(SHLIBS) $(TESTS) $(UTILS)
 	-rm -f paxtest paxtest.log a.out
+	-rm -f paxbin

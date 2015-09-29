@@ -47,3 +47,4 @@ shlibdata
 shlibtest.so
 shlibtest2.so
 writetext
+paxbin
