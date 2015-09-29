@@ -25,6 +25,9 @@ int main( int argc, char *argv[] )
 	unsigned long or;
 	int bits;
 	int ret;
+#ifdef __FreeBSD__
+	int __freebsd_hack = 0;
+#endif
 
 	printf( "%s: ", testname );
 
@@ -49,6 +52,15 @@ int main( int argc, char *argv[] )
 		pclose( fp );
 	}
 
+#ifdef __FreeBSD__
+	for (i = 0; i < COUNT; i++ ) {
+		__freebsd_hack += results[i] == 0xdeadc0de;
+	}
+
+	if (__freebsd_hack == COUNT) {
+		printf("this test works only with security.bsd.unprivileged_proc_debug=1\n");
+	} else
+#endif
 	if( and == or ) {
 		printf( "No randomisation\n" );
 	} else {
