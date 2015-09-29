@@ -22,7 +22,7 @@ int main( int argc, char *argv[] )
 			unsigned long val;
 			*p = '\0';
 			val = strtoul(buf, NULL, 16);
-			printf("%p\n", val);
+			printf("%p\n", (void *)val);
 			fclose(f);
 			return 0;
 		}
