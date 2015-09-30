@@ -4,7 +4,12 @@
 #include <string.h>
 
 #define PAGE_SIZE_MAX	0x10000	/* 64k should cover most arches */
+#ifndef __aligned
 #define __aligned(x)	__attribute__((aligned(x)))
+#endif
+#ifndef __always_inline
+#define __always_inline __attribute__((__always_inline__))
+#endif
 #define __pagealigned	__aligned(PAGE_SIZE_MAX)
 #define __use(x)	asm volatile ( "" : : "m" (x) );
 
@@ -16,7 +21,7 @@ static inline char *forced_strcpy(char *dst, const char *src)
 	return dst;
 }
 
-static inline void *forced_memcpy(void *dst, const void *src, size_t n)
+static inline __always_inline void *forced_memcpy(void *dst, const void *src, size_t n)
 {
 	memcpy(dst, src, n);
 	/* ensure the compiler won't optimize the memcpy() away */

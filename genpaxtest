@@ -58,7 +58,7 @@ echo 'It may take a while for the tests to complete'
 
 for i in $*
 do
-	${RUNDIR}/\$i
+	${RUNDIR}/\$i || echo
 done >>paxtest.log 2>&1
 
 echo "Test results:"

@@ -14,6 +14,9 @@
 #ifdef __OpenBSD__
 #undef RTLD_DEFAULT
 #define RTLD_DEFAULT "libc.so"
+#elif defined __FreeBSD__ || defined __HardenedBSD__
+#undef RTLD_DEFAULT
+#define RTLD_DEFAULT "libc.so.7"
 #endif
 
 int main( int argc, char *argv[] )
