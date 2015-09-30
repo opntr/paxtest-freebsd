@@ -7,7 +7,7 @@ ifndef RUNDIR
 RUNDIR=.
 endif
 
-CFLAGS+=-DRUNDIR=\"${RUNDIR}\" -fno-stack-protector -ftrampolines
+CFLAGS+=-O2 -DRUNDIR=\"${RUNDIR}\" -fno-stack-protector -ftrampolines
 LDFLAGS+=-lpthread
 
 

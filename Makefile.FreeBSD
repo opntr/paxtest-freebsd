@@ -12,6 +12,7 @@ RUNDIR=.
 
 ASFLAGS+= --noexecstack
 
+CFLAGS+= -O2
 CFLAGS+= -DRUNDIR=\"${RUNDIR}\"
 CFLAGS+= -fno-stack-protector
 CFLAGS+= -D_FORTIFY_SOURCE=0
