@@ -33,6 +33,6 @@ Arg/env randomization test (PAGEEXEC)    : 42 quality bits (guessed)
 Randomization under memory exhaustion @~0: 30 bits (guessed)
 Randomization under memory exhaustion @0 : 30 bits (guessed)
 Return to function (strcpy)              : paxtest: return address contains a NULL byte.
-Return to function (memcpy)              : Killed
+Return to function (memcpy)              : Vulnerable
 Return to function (strcpy, PIE)         : paxtest: return address contains a NULL byte.
-Return to function (memcpy, PIE)         : Killed
+Return to function (memcpy, PIE)         : Vulnerable

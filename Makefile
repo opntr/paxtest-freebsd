@@ -8,7 +8,7 @@ all:
 	@cat targets
 
 linux:
-	gmake -f Makefile.psm
+	make -f Makefile.psm
 
 linux32:
 	make -f Makefile.psm THEARCH=-m32
