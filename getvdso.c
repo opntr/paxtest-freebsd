@@ -23,7 +23,7 @@
 
 int main( int argc, char *argv[] )
 {
-#ifndef __FreeBSD__
+#ifdef __linux__
 	FILE *f = fopen("/proc/self/maps", "r");
 	char buf[1024] = { };
 	if (f == NULL)
@@ -42,7 +42,7 @@ int main( int argc, char *argv[] )
 	}
 	fclose(f);
 	return 0;
-#else
+#elif defined(__FreeBSD__)
 	Elf_Auxinfo	*aux, *auxv;
 	int		name[4];
 	size_t		len;
@@ -75,7 +75,9 @@ int main( int argc, char *argv[] )
 out:
 	if (auxv != NULL)
 		free(auxv);
-	printf("%p\n", (void *)0xdeadc0deUL);
+	printf("%p\n", (void *)0UL);
 	return (ret);
+#else
+#error	unsupported OS
 #endif
 }
