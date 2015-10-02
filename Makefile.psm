@@ -128,7 +128,7 @@ chpax: $(CHPAXSRC:.c=.o)
 	$(CC) $(LDFLAGS) -o $@ $^
 
 paxtest: $(TESTS) genpaxtest
-	sh genpaxtest $(TESTS)
+	sh genpaxtest $(CC) $(TESTS)
 
 .S.o:
 	$(CC) $(CFLAGS) $(CC_PIE) $(ASFLAGS) -o $@ -c $<

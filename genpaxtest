@@ -3,6 +3,7 @@
 # Script to run all the PaX memory protection tests
 #
 # Copyright(c) 2003,2004 by Peter Busser <peter@adamantix.org>
+# Copyright(c) 2015 by Oliver Pinter <op@hardenedbsd.org>
 # This file has been released under the GNU Public Licence version 2 or later.
 # See the file COPYING for details.
 #
@@ -12,6 +13,11 @@ if [ "${RUNDIR}" = "" ]
 then
 	RUNDIR=.
 fi
+
+COMPILER_VERSION="`$1 -v 2>&1 | grep -E '(clang|gcc) version'`"
+shift
+
+OS_TYPE=`uname -o`
 
 cat << __here__ > paxtest
 #!/bin/sh
@@ -23,7 +29,19 @@ then
 		PAXTEST_MODE=0
 	elif [ "\$1" = "blackhat" ]
 	then
+__here__
+if [ -z "${COMPILER_VERSION##*clang*}" ]
+then
+	cat << __here__ >> paxtest
+		echo "error: blackhat mode not supported by clang compiled version of paxtest"
+		exit 1
+__here__
+else
+	cat << __here__ >>paxtest
 		PAXTEST_MODE=1
+__here__
+fi
+	cat << __here__ >>paxtest
 	else
 		echo "usage: paxtest [kiddie|blackhat]"
 		exit 1
@@ -44,13 +62,17 @@ fi
 export LD_LIBRARY_PATH
 
 cat <<__end__ | tee paxtest.log
-PaXtest - Copyright(c) 2003-2014 by Peter Busser <peter@adamantix.org> and Brad Spengler <spender@grsecurity.net>
+PaXtest
+Copyright(c) 2003-2014 by Peter Busser <peter@adamantix.org>
+Copyright(c) 2003-2014 by Brad Spengler <spender@grsecurity.net>
+Copyright(c) 2015 by Oliver Pinter <op@hardenedbsd.org>
 Released under the GNU Public Licence version 2 or later
 
 __end__
 
 echo "Mode: \$1" >>paxtest.log
-uname -a >>paxtest.log
+echo "Uname: `uname -a`" >>paxtest.log
+echo "Compiler: ${COMPILER_VERSION}" >>paxtest.log
 echo >>paxtest.log
 
 echo 'Writing output to paxtest.log'
@@ -60,7 +82,20 @@ for i in $*
 do
 	${RUNDIR}/\$i || echo
 done >>paxtest.log 2>&1
+__here__
 
+if [ ${OS_TYPE} = "FreeBSD" ]
+then
+	cat << __here__ >>paxtest
+if [ \`sysctl -n security.bsd.unprivileged_proc_debug\` = 0 ]
+then
+	echo >>paxtest.log
+	echo "warning: the randvdso test may invalid, try to retest with security.bsd.unprivileged_proc_debug=1 sysctl settings" >>paxtest.log
+fi
+__here__
+fi
+
+cat << __here__ >>paxtest
 echo "Test results:"
 cat paxtest.log
 
