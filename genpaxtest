@@ -63,8 +63,7 @@ export LD_LIBRARY_PATH
 
 cat <<__end__ | tee paxtest.log
 PaXtest
-Copyright(c) 2003-2014 by Peter Busser <peter@adamantix.org>
-Copyright(c) 2003-2014 by Brad Spengler <spender@grsecurity.net>
+Copyright(c) 2003-2014 by Peter Busser <peter@adamantix.org> and Brad Spengler <spender@grsecurity.net>
 Copyright(c) 2015 by Oliver Pinter <op@hardenedbsd.org>
 Released under the GNU Public Licence version 2 or later
 
@@ -90,7 +89,7 @@ then
 if [ \`sysctl -n security.bsd.unprivileged_proc_debug\` = 0 ]
 then
 	echo >>paxtest.log
-	echo "warning: the randvdso test may invalid, try to retest with security.bsd.unprivileged_proc_debug=1 sysctl settings" >>paxtest.log
+	echo "warning: the randvdso test may be invalid, try to retest with the security.bsd.unprivileged_proc_debug=1 sysctl setting" >>paxtest.log
 fi
 __here__
 fi
