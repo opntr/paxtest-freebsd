@@ -86,7 +86,7 @@ __here__
 if [ ${OS_TYPE} = "FreeBSD" ]
 then
 	cat << __here__ >>paxtest
-if [ \`sysctl -n security.bsd.unprivileged_proc_debug\` = 0 ]
+if [ "$USER" != "root" ] && [ \`sysctl -n security.bsd.unprivileged_proc_debug\` = 0 ]
 then
 	echo >>paxtest.log
 	echo "warning: the randvdso test may be invalid, try to retest with the security.bsd.unprivileged_proc_debug=1 sysctl setting" >>paxtest.log
