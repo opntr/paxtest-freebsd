@@ -154,6 +154,10 @@ randstack1: randbody.o randstack1.o
 
 randstack2: randbody.o randstack2.o
 
+randarg1: randbody.o randarg1.o
+
+randarg2: randbody.o randarg2.o
+
 rettofunc1: body.o rettofunc1.o
 
 rettofunc1x: body.o rettofunc1x.o
